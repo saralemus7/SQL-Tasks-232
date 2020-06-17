@@ -8,7 +8,7 @@ details and history. These CSV files have been added to the sqlite database
 `vet.sqlite`. Use the database and CSV files to complete the following tasks.
 
 Before you begin Homework 4, watch 
-[Getting Started on Homework 4](https://warpwire.duke.edu/).
+[Getting Started on Homework 4](https://warpwire.duke.edu/w/c9kDAA/).
 
 ## Tasks
 
