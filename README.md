@@ -26,7 +26,7 @@ In an R chunk with R code, list all tables and their fields that exist in
 How many of each kind of pet exist? Only output a table with the type of
 pet and the respective count.
 
-#### Task 
+#### Task 3
 
 Which procedure types had an average price exceed $20? Sort them in descending
 order. Only output a table with the procedure types and their 
