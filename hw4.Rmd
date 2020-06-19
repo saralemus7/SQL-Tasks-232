@@ -29,15 +29,27 @@ dbListFields(db, "owners")
 dbListFields(db, "pets")
 dbListFields(db, "procedure_details")
 dbListFields(db, "procedure_history")
-
 ```
 
 ### Task 2
 
 ```{r}
-
+dbGetQuery(db, paste("SELECT kind, count(kind) AS count FROM pets",
+                     "GROUP BY kind",
+                     "ORDER BY count DESC"
+                     
+                     ))
 ```
 
+### Task 3
+
+```{r}
+dbGetQuery(db, paste("SELECT kind, count(kind) AS count FROM pets",
+                     "GROUP BY kind",
+                     "ORDER BY count DESC"
+                     
+                     ))
+```
 
 
 
