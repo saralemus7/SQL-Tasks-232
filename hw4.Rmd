@@ -1,7 +1,7 @@
 ---
 title: "Homework 4"
-author: "[Team name: member 1, member 2, member 3]"
-date: ""
+author: "Sara Lemus, Katherine Xiao, Harrison Yue"
+date: "6-19-2020"
 output: html_document
 ---
 
@@ -22,5 +22,25 @@ library(DBI)
 ## Tasks
 
 #### Task 1
+
+```{r list-tables}
+dbListTables(db)
+dbListFields(db, "owners")
+dbListFields(db, "pets")
+dbListFields(db, "procedure_details")
+dbListFields(db, "procedure_history")
+
+```
+
+### Task 2
+
+```{r}
+
+```
+
+
+
+
+
 
 
