@@ -39,44 +39,59 @@ GROUP BY kind
 ORDER BY count DESC
 ```
 
-### Task 3
-
-
-
 ### Task 6
 
 Get a table that contains the owner id, owner name, owner surname, owner city, and the total price they spent on procedures corresponding to procedure sub code 05. Only consider those owners from Lansing, Detroit, and Grand Rapids. Sort your table in ascending order by city and descending order by the total price within each city.
 
 ```{sql}
 
-DROP name FROM 
-SELECT owner_id, name, surname, city FROM owners JOIN pets USING(owner_id, name) 
-DROP COLUMN name FROM pets
+SELECT owner_id, owners.name, surname, city, SUM(price) as total_spent FROM owners 
+JOIN pets USING (owner_id)
+JOIN procedure_history USING (pet_id)
+JOIN procedure_details USING (procedure_sub_code)
+GROUP BY owner_id
+HAVING procedure_details.procedure_sub_code == "05" AND (owners.city == "Lansing" OR owners.city == "Detroit" OR owners.city == "Grand Rapids" )
+ORDER BY city ASC, total_spent DESC
 
 ```
 
+### Task 7 
 
+Which owners have multiple pets? Sort your table so the count is in descending order. Only output a table with the owners' name, surname and number of pets.
+
+```{r read-files}
+owners <- read_csv(file = 'data/owners.csv')
+pets <- read_csv(file = 'data/pets.csv')
+```
+
+```{r dplyr-four}
+
+#make a df that contains count data
+count_df <- pets %>% 
+  count(OwnerID)
+
+#df that contains owner info
+name_df <- owners %>% 
+  group_by(OwnerID) %>% 
+  distinct(Name, Surname) 
+
+pet_count <- inner_join(count_df, name_df)
+pet_count %>% 
+  rename("pet_count" = n) %>% 
+  select(Name, Surname, pet_count) %>% 
+  filter(pet_count > 1) %>% 
+  arrange(-pet_count)
+```
 
 ### Task 8 
 
 Construct an SQL query that outputs a table you can then use to create a single visualization, with ggplot2or any extension packages, that depicts something about the data in the vet database. Your visualization should be well-polished with a title that tells a story, and aesthetics, font size, and style should be carefully chosen. You may construct this visualization with the mindset that it would appear in a presentation.
 
 ```{sql}
-SELECT procedure_type, procedure_sub_code, description, price FROM procedure_details 
-GROUP BY description
-ORDER BY procedure_sub_code, price
-
+SELECT Description, procedure_type, SUM(price) as total FROM procedure_details 
+JOIN procedure_history USING (procedure_type)
+GROUP BY (procedure_details.Description)
 ```
-
-```{sql}
-
-SELECT kind, gender, age, owner_id FROM pets JOIN owners USING (owner_id)
-ORDER BY age DESC
-```
-
-
-
-
 
 
 
