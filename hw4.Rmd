@@ -33,23 +33,49 @@ dbListFields(db, "procedure_history")
 
 ### Task 2
 
-```{r}
-dbGetQuery(db, paste("SELECT kind, count(kind) AS count FROM pets",
-                     "GROUP BY kind",
-                     "ORDER BY count DESC"
-                     
-                     ))
+```{sql pet-count}
+SELECT kind, count(kind) AS count FROM pets
+GROUP BY kind
+ORDER BY count DESC
 ```
 
 ### Task 3
 
-```{r}
-dbGetQuery(db, paste("SELECT kind, count(kind) AS count FROM pets",
-                     "GROUP BY kind",
-                     "ORDER BY count DESC"
-                     
-                     ))
+
+
+### Task 6
+
+Get a table that contains the owner id, owner name, owner surname, owner city, and the total price they spent on procedures corresponding to procedure sub code 05. Only consider those owners from Lansing, Detroit, and Grand Rapids. Sort your table in ascending order by city and descending order by the total price within each city.
+
+```{sql}
+
+DROP name FROM 
+SELECT owner_id, name, surname, city FROM owners JOIN pets USING(owner_id, name) 
+DROP COLUMN name FROM pets
+
 ```
+
+
+
+### Task 8 
+
+Construct an SQL query that outputs a table you can then use to create a single visualization, with ggplot2or any extension packages, that depicts something about the data in the vet database. Your visualization should be well-polished with a title that tells a story, and aesthetics, font size, and style should be carefully chosen. You may construct this visualization with the mindset that it would appear in a presentation.
+
+```{sql}
+SELECT procedure_type, procedure_sub_code, description, price FROM procedure_details 
+GROUP BY description
+ORDER BY procedure_sub_code, price
+
+```
+
+```{sql}
+
+SELECT kind, gender, age, owner_id FROM pets JOIN owners USING (owner_id)
+ORDER BY age DESC
+```
+
+
+
 
 
 
