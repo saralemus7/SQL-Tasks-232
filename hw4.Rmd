@@ -23,4 +23,73 @@ library(DBI)
 
 #### Task 1
 
+```{r list-tables}
+dbListTables(db)
+dbListFields(db, "owners")
+dbListFields(db, "pets")
+dbListFields(db, "procedure_details")
+dbListFields(db, "procedure_history")
+```
 
+#### Task 6
+
+```{sql}
+SELECT owner_id, owners.name, surname, city, SUM(price) as total_spent
+FROM owners 
+JOIN pets USING (owner_id)
+JOIN procedure_history USING (pet_id)
+JOIN procedure_details USING (procedure_sub_code)
+GROUP BY owner_id
+HAVING procedure_details.procedure_sub_code == "05" AND (owners.city == "Lansing" OR owners.city == "Detroit" OR owners.city == "Grand Rapids" )
+ORDER BY city ASC, total_spent DESC
+```
+
+
+#### Task 7
+
+```{r task-4-r}
+owners <- read_csv(file = "data/owners.csv")
+pets <- read_csv(file = "data/pets.csv")
+
+#make a df that contains count data
+count_df <- pets %>% 
+  count(OwnerID)
+
+#df that contains owner info
+name_df <- owners %>% 
+  group_by(OwnerID) %>% 
+  distinct(Name, Surname) 
+
+pet_count <- inner_join(count_df, name_df)
+
+pet_count %>% 
+  rename("pet_count" = n) %>% 
+  select(Name, Surname, pet_count) %>% 
+  filter(pet_count > 1) %>% 
+  arrange(-pet_count)
+```
+
+#### Task 8
+
+```{sql output.var = "prices"}
+SELECT Description, procedure_type, SUM(price) as total_spent
+FROM procedure_details 
+JOIN procedure_history USING (procedure_type)
+GROUP BY (procedure_details.Description)
+```
+
+```{r plot_prices}
+prices %>%
+  ggplot(aes(x = reorder(description, total_spent), 
+             y = total_spent,
+             fill = procedure_type)) +
+  geom_bar(stat = "identity") +
+  scale_fill_brewer(palette = "Set2") +
+  theme_minimal() +
+  coord_flip() +
+  labs(x = "Procedure Description", 
+       y = "Total Money Spent",
+       fill = "Procedure Type") +
+  ggtitle("Total Money Spent on Procedures",
+          subtitle = "Grouped By Procedure Type")
+```
