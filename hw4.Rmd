@@ -1,7 +1,7 @@
 ---
 title: "Homework 4"
-author: "[Team name: member 1, member 2, member 3]"
-date: ""
+author: "Sara Lemus, Katherine Xiao, Harrison Yue"
+date: "6-19-2020"
 output: html_document
 ---
 
@@ -22,5 +22,57 @@ library(DBI)
 ## Tasks
 
 #### Task 1
+
+```{r list-tables}
+dbListTables(db)
+```
+
+```{r list-fields}
+dbListFields(db, "owners")
+dbListFields(db, "pets")
+dbListFields(db, "procedure_details")
+dbListFields(db, "procedure_history")
+```
+
+
+### Task 2
+
+```{sql pet-count}
+SELECT kind, count(kind) AS count FROM pets
+GROUP BY kind
+ORDER BY count DESC
+```
+
+### Task 3
+```{sql}
+SELECT procedure_type, AVG(price) AS avg_price FROM procedure_details
+GROUP BY procedure_type
+HAVING avg_price > 20
+ORDER BY avg_price DESC
+```
+
+### Task 4
+```{sql}
+SELECT owners.name, owners.surname, COUNT(owner_id) as pet_count
+FROM pets JOIN owners USING (owner_id)
+GROUP BY owner_id
+HAVING pet_count > 1
+ORDER BY pet_count DESC
+```
+
+### Task 5
+```{sql}
+SELECT pets.name, pets.kind, pets.age,COUNT(pet_id) as proc_count
+FROM pets JOIN procedure_history USING (pet_id)
+GROUP BY pet_id
+HAVING age < 10
+ORDER BY proc_count DESC
+LIMIT 1
+```
+
+
+
+
+
 
 
