@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = FALSE, comment = NA, message = FALSE,
 
 ## Packages
 
-```{r}
+```{r load-packages}
 library(tidyverse)
 library(RSQLite)
 library(DBI)
@@ -37,14 +37,14 @@ dbListFields(db, "procedure_history")
 
 ### Task 2
 
-```{sql pet-count}
+```{sql pet-type}
 SELECT kind, count(kind) AS count FROM pets
 GROUP BY kind
 ORDER BY count DESC
 ```
 
 ### Task 3
-```{sql}
+```{sql avg-price}
 SELECT procedure_type, AVG(price) AS avg_price FROM procedure_details
 GROUP BY procedure_type
 HAVING avg_price > 20
@@ -52,7 +52,7 @@ ORDER BY avg_price DESC
 ```
 
 ### Task 4
-```{sql}
+```{sql pet-count}
 SELECT owners.name, surname, COUNT(owner_id) as pet_count
 FROM pets JOIN owners USING (owner_id)
 GROUP BY owner_id
@@ -61,7 +61,7 @@ ORDER BY pet_count DESC
 ```
 
 ### Task 5
-```{sql}
+```{sql proc-count}
 SELECT name, kind, age, COUNT(pet_id) as proc_count
 FROM pets JOIN procedure_history USING (pet_id)
 GROUP BY pet_id
@@ -71,7 +71,7 @@ LIMIT 1
 ```
 
 ### Task 6
-```{sql}
+```{sql total-spent}
 SELECT owner_id, owners.name, surname, city, SUM(price) as total_spent
 FROM owners 
 JOIN pets USING (owner_id)
@@ -113,7 +113,7 @@ JOIN procedure_history USING (procedure_type)
 GROUP BY (procedure_details.Description)
 ```
 
-```{r plot_prices}
+```{r plot-prices}
 prices %>%
   ggplot(aes(x = reorder(description, total_spent), 
              y = total_spent,
