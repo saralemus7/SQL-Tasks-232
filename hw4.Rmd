@@ -77,7 +77,9 @@ JOIN pets USING (owner_id)
 JOIN procedure_history USING (pet_id)
 JOIN procedure_details USING (procedure_sub_code)
 GROUP BY owner_id
-HAVING procedure_details.procedure_sub_code == "05" AND (owners.city == "Lansing" OR owners.city == "Detroit" OR owners.city == "Grand Rapids" )
+HAVING procedure_details.procedure_sub_code == "05" AND 
+(owners.city == "Lansing" OR owners.city == "Detroit" 
+OR owners.city == "Grand Rapids" )
 ORDER BY city ASC, total_spent DESC
 ```
 
@@ -117,15 +119,17 @@ prices %>%
   ggplot(aes(x = reorder(description, total_spent), 
              y = total_spent,
              fill = procedure_type)) +
-  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity",
+           position = position_dodge(width = 0.45)) +
   scale_fill_brewer(palette = "Set2") +
   theme_minimal() +
   coord_flip() +
+  theme(axis.text = element_text(size = rel(0.65))) +
   labs(x = "Procedure Description", 
-       y = "Total Money Spent",
+       y = "Total Money Spent (in Dollars)",
        fill = "Procedure Type") +
-  ggtitle("Total Money Spent on Procedures",
-          subtitle = "General Surgeries Accounted for the Most Money")
+  ggtitle("Money Spent on Pet Procedures in Michigan (2016)",
+          subtitle = "General Surgeries Accounted for the Most Money Spent")
 ```
 
 
