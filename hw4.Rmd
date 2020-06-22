@@ -40,7 +40,6 @@ dbListFields(db, "procedure_history")
 ```{sql pet-type}
 SELECT kind, count(kind) AS count FROM pets
 GROUP BY kind
-ORDER BY count DESC
 ```
 
 ### Task 3
@@ -126,7 +125,7 @@ prices %>%
        y = "Total Money Spent",
        fill = "Procedure Type") +
   ggtitle("Total Money Spent on Procedures",
-          subtitle = "Grouped By Procedure Type")
+          subtitle = "General Surgeries Accounted for the Most Money")
 ```
 
 
